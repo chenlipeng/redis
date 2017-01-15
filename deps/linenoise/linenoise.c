@@ -117,19 +117,32 @@
 #include <unistd.h>
 #include "linenoise.h"
 
+//命令历史记录最大个数
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
+//每条命令的最大长度
 #define LINENOISE_MAX_LINE 4096
+//不支持的终端类型
 static char *unsupported_term[] = {"dumb","cons25","emacs",NULL};
+//命令补全回调函数 用户自己注册
 static linenoiseCompletionCallback *completionCallback = NULL;
+//命令提示回调函数 用户自己注册
 static linenoiseHintsCallback *hintsCallback = NULL;
+//释放命令提示回调函数 用户自己注册
 static linenoiseFreeHintsCallback *freeHintsCallback = NULL;
 
+//终端状态信息 在enableRawMode前保存 在disableRawMode时使用
 static struct termios orig_termios; /* In order to restore at exit.*/
+//终端状态标志 在enableRawMode后值为1 在disableRawMode后值为0
 static int rawmode = 0; /* For atexit() function to check if restore is needed*/
+//多行输入模式
 static int mlmode = 0;  /* Multi line mode. Default is single line. */
+//防止atexit重复注册 保证只注册一次
 static int atexit_registered = 0; /* Register atexit just 1 time. */
+//命令历史记录最大个数 同LINENOISE_DEFAULT_HISTORY_MAX_LEN
 static int history_max_len = LINENOISE_DEFAULT_HISTORY_MAX_LEN;
+//当前命令历史记录数
 static int history_len = 0;
+//历史纪录
 static char **history = NULL;
 
 /* The linenoiseState structure represents the state during line editing.
@@ -625,6 +638,7 @@ static void refreshMultiLine(struct linenoiseState *l) {
 
 /* Calls the two low level functions refreshSingleLine() or
  * refreshMultiLine() according to the selected mode. */
+//
 static void refreshLine(struct linenoiseState *l) {
     if (mlmode)
         refreshMultiLine(l);
@@ -1085,6 +1099,7 @@ static void freeHistory(void) {
 }
 
 /* At exit we'll try to fix the terminal to the initial conditions. */
+//在atexit中注册 在程序退出时调用
 static void linenoiseAtExit(void) {
     disableRawMode(STDIN_FILENO);
     freeHistory();
@@ -1097,6 +1112,7 @@ static void linenoiseAtExit(void) {
  * histories, but will work well for a few hundred of entries.
  *
  * Using a circular buffer is smarter, but a bit more complex to handle. */
+//增加一条新的历史纪录
 int linenoiseHistoryAdd(const char *line) {
     char *linecopy;
 
