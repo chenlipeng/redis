@@ -211,12 +211,14 @@ FILE *lndebug_fp = NULL;
 /* ======================= Low level terminal handling ====================== */
 
 /* Set if to use or not the multi line mode. */
+//设置是否开启多行模式
 void linenoiseSetMultiLine(int ml) {
     mlmode = ml;
 }
 
 /* Return true if the terminal name is in the list of terminals we know are
  * not able to understand basic escape sequences. */
+//判断对终端的支持
 static int isUnsupportedTerm(void) {
     char *term = getenv("TERM");
     int j;
@@ -228,6 +230,7 @@ static int isUnsupportedTerm(void) {
 }
 
 /* Raw mode: 1960 magic shit. */
+//开启Raw模式
 static int enableRawMode(int fd) {
     struct termios raw;
 
@@ -263,6 +266,7 @@ fatal:
     return -1;
 }
 
+//关闭Raw模式 并使得终端的状态回到enableRawMode前
 static void disableRawMode(int fd) {
     /* Don't even check the return value as it's too late. */
     if (rawmode && tcsetattr(fd,TCSAFLUSH,&orig_termios) != -1)
@@ -1088,6 +1092,7 @@ void linenoiseFree(void *ptr) {
 
 /* Free the history, but does not reset it. Only used when we have to
  * exit() to avoid memory leaks are reported by valgrind & co. */
+//释放历史记录占用的内存
 static void freeHistory(void) {
     if (history) {
         int j;
@@ -1113,6 +1118,7 @@ static void linenoiseAtExit(void) {
  *
  * Using a circular buffer is smarter, but a bit more complex to handle. */
 //增加一条新的历史纪录
+//Todo 用循环buffer实现
 int linenoiseHistoryAdd(const char *line) {
     char *linecopy;
 
@@ -1146,6 +1152,7 @@ int linenoiseHistoryAdd(const char *line) {
  * if there is already some history, the function will make sure to retain
  * just the latest 'len' elements if the new history length value is smaller
  * than the amount of items already inside the history. */
+//重新设置历史记录的长度
 int linenoiseHistorySetMaxLen(int len) {
     char **new;
 
