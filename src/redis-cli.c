@@ -78,6 +78,7 @@ int *spectrum_palette;
 int spectrum_palette_size;
 
 static redisContext *context;
+//配置
 static struct config {
     char *hostip;
     int hostport;
@@ -216,6 +217,7 @@ typedef struct {
 } helpEntry;
 
 static helpEntry *helpEntries;
+//
 static int helpEntriesLen;
 
 static sds cliVersion(void) {
@@ -395,6 +397,7 @@ static void cliOutputHelp(int argc, char **argv) {
 }
 
 /* Linenoise completion callback. */
+//命令补全
 static void completionCallback(const char *buf, linenoiseCompletions *lc) {
     size_t startpos = 0;
     int mask;
@@ -2558,10 +2561,11 @@ static void intrinsicLatencyMode(void) {
  * Program main()
  *--------------------------------------------------------------------------- */
 
+//Main
 int main(int argc, char **argv) {
     int firstarg;
 
-    config.hostip = sdsnew("127.0.0.1");
+    config.hostip = sdsnew("127.0.0.1");    //将C字符串转换为sds字符串
     config.hostport = 6379;
     config.hostsocket = NULL;
     config.repeat = 1;

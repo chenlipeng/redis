@@ -39,6 +39,7 @@
 #include "sds.h"
 #include "sdsalloc.h"
 
+//
 static inline int sdsHdrSize(char type) {
     switch(type&SDS_TYPE_MASK) {
         case SDS_TYPE_5:
@@ -55,6 +56,7 @@ static inline int sdsHdrSize(char type) {
     return 0;
 }
 
+//根据字符串的长度string_size 确定所使用的类型
 static inline char sdsReqType(size_t string_size) {
     if (string_size < 1<<5)
         return SDS_TYPE_5;
@@ -81,6 +83,7 @@ static inline char sdsReqType(size_t string_size) {
  * You can print the string with printf() as there is an implicit \0 at the
  * end of the string. However the string is binary safe and can contain
  * \0 characters in the middle, as the length is stored in the sds header. */
+//创建sds安全字符串
 sds sdsnewlen(const void *init, size_t initlen) {
     void *sh;
     sds s;
@@ -144,6 +147,7 @@ sds sdsempty(void) {
 }
 
 /* Create a new sds string starting from a null terminated C string. */
+//将以'\0'结尾的C字符串转换为sds字符串 sds字符串为安全字符串
 sds sdsnew(const char *init) {
     size_t initlen = (init == NULL) ? 0 : strlen(init);
     return sdsnewlen(init, initlen);
