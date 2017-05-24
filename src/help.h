@@ -20,6 +20,7 @@ static char *commandGroups[] = {
     "geo"
 };
 
+//2017-05-19
 struct commandHelp {
   char *name;
   char *params;
@@ -27,6 +28,11 @@ struct commandHelp {
   int group;
   char *since;
 } commandHelp[] = {
+	{ "AAAAA",
+	"a b c d",
+	"this is a test",
+	1,
+	"2.0.0" },
     { "APPEND",
     "key value",
     "Append a value to a key",

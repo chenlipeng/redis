@@ -37,10 +37,12 @@
 #include "version.h"
 #include "crc64.h"
 
+//@by chenlipeng 2017-03-20
 char *redisGitSHA1(void) {
     return REDIS_GIT_SHA1;
 }
 
+//@by chenlipeng 2017-03-20
 char *redisGitDirty(void) {
     return REDIS_GIT_DIRTY;
 }

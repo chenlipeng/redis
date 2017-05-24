@@ -92,6 +92,7 @@ int anetBlock(char *err, int fd) {
 /* Set TCP keep alive option to detect dead peers. The interval option
  * is only used for Linux as we are using Linux-specific APIs to set
  * the probe send time, interval, and count. */
+//@by chenlipeng 2017-03-28
 int anetKeepAlive(char *err, int fd, int interval)
 {
     int val = 1;
