@@ -754,6 +754,7 @@ static sds cliFormatReplyCSV(redisReply *r) {
     return out;
 }
 
+//2017-06-01 by @chenlipeng
 static int cliReadReply(int output_raw_strings) {
     void *_reply;
     redisReply *reply;
@@ -827,6 +828,7 @@ static int cliReadReply(int output_raw_strings) {
                 out = sdscat(out,"\n");
             }
         }
+		//output result
         fwrite(out,sdslen(out),1,stdout);
         sdsfree(out);
     }
@@ -834,6 +836,7 @@ static int cliReadReply(int output_raw_strings) {
     return REDIS_OK;
 }
 
+//2017-06-01 by @chenlipeng
 static int cliSendCommand(int argc, char **argv, int repeat) {
     char *command = argv[0];
     size_t *argvlen;
@@ -1180,6 +1183,7 @@ static char **convertToSds(int count, char** args) {
   return sds;
 }
 
+//2017-06-01 by @chenlipeng
 static int issueCommandRepeat(int argc, char **argv, long repeat) {
     while (1) {
         config.cluster_reissue_command = 0;
@@ -1269,6 +1273,7 @@ void cliLoadPreferences(void) {
     sdsfree(rcfile);
 }
 
+//2017-06-01 by @chenlipeng
 static void repl(void) {
     sds historyfile = NULL;
     int history = 0;
@@ -1343,10 +1348,12 @@ static void repl(void) {
                         repeat = 1;
                     }
 
+					//here
                     issueCommandRepeat(argc-skipargs, argv+skipargs, repeat);
 
                     /* If our debugging session ended, show the EVAL final
                      * reply. */
+					//in interactive mode: config.eval_ldb_end = 0 
                     if (config.eval_ldb_end) {
                         config.eval_ldb_end = 0;
                         cliReadReply(0);

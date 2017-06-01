@@ -791,6 +791,7 @@ int redisEnableKeepAlive(redisContext *c) {
  *
  * After this function is called, you may use redisContextReadReply to
  * see if there is a reply available. */
+//2017-06-01 by @chenlipeng
 int redisBufferRead(redisContext *c) {
     char buf[1024*16];
     int nread;
@@ -867,6 +868,7 @@ int redisGetReplyFromReader(redisContext *c, void **reply) {
     return REDIS_OK;
 }
 
+//2017-06-01 by @chenlipeng
 int redisGetReply(redisContext *c, void **reply) {
     int wdone = 0;
     void *aux = NULL;
@@ -967,6 +969,7 @@ int redisAppendCommandArgv(redisContext *c, int argc, const char **argv, const s
         __redisSetError(c,REDIS_ERR_OOM,"Out of memory");
         return REDIS_ERR;
     }
+printf("%s\n", cmd);
 
     if (__redisAppendCommand(c,cmd,len) != REDIS_OK) {
         sdsfree(cmd);

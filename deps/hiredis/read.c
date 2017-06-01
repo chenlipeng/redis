@@ -442,6 +442,7 @@ void redisReaderFree(redisReader *r) {
     free(r);
 }
 
+//2017-06-01 by @chenlipeng
 int redisReaderFeed(redisReader *r, const char *buf, size_t len) {
     sds newbuf;
 
